@@ -1,8 +1,22 @@
+import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -33,11 +47,13 @@ public class View {
 	 */
 
 	public View() {
+		
 		frame = new JFrame("View");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 450, 300);
 		frame.setSize(1000,600);
 		frame.setVisible(true);
+		
 		
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -68,8 +84,10 @@ public class View {
 		contentPane.add(toolBar, BorderLayout.NORTH);
 		
 		JPanel attribute = new JPanel();
-		attribute.setBackground(Color.LIGHT_GRAY);
-		contentPane.add(attribute, BorderLayout.WEST);
+		//attribute.setBackground(Color.BLUE);
+		contentPane.add(attribute, BorderLayout.WEST); // 속성페인
+		contentPane.add(new PaintSurface(), BorderLayout.CENTER); // 에디터페인
+		
 		attribute.setLayout(new BoxLayout(attribute, BoxLayout.Y_AXIS));
 		
 		JPanel panel = new JPanel();
@@ -135,9 +153,84 @@ public class View {
 		JComboBox comboBox = new JComboBox(componentTypeList);
 		panel_5.add(comboBox);
 		
-		JPanel editor = new JPanel();
+		/*JPanel editor = new JPanel();
 		editor.setBackground(Color.DARK_GRAY);
 		contentPane.add(editor, BorderLayout.CENTER);
-		editor.setLayout(null);
+		editor.setLayout(null);*/
 	}
+	private class PaintSurface extends JComponent {
+	    ArrayList<Shape> shapes = new ArrayList<Shape>();
+
+	    Point startDrag, endDrag;
+
+	    public PaintSurface() {
+	      this.addMouseListener(new MouseAdapter() {
+	        public void mousePressed(MouseEvent e) {
+	          startDrag = new Point(e.getX(), e.getY());
+	          endDrag = startDrag;
+	          repaint();
+	        }
+
+	        public void mouseReleased(MouseEvent e) {
+	          Shape r = makeRectangle(startDrag.x, startDrag.y, e.getX(), e.getY());
+	          shapes.add(r);
+	          startDrag = null;
+	          endDrag = null;
+	          repaint();
+	        }
+	      });
+
+	      this.addMouseMotionListener(new MouseMotionAdapter() {
+	        public void mouseDragged(MouseEvent e) {
+	          endDrag = new Point(e.getX(), e.getY());
+	          repaint();
+	        }
+	      });
+	    }
+	    private void paintBackground(Graphics2D g2){
+	      g2.setPaint(Color.LIGHT_GRAY);
+	      for (int i = 0; i < getSize().width; i += 10) {
+	        Shape line = new Line2D.Float(i, 0, i, getSize().height);
+	        g2.draw(line);
+	      }
+
+	      for (int i = 0; i < getSize().height; i += 10) {
+	        Shape line = new Line2D.Float(0, i, getSize().width, i);
+	        g2.draw(line);
+	      }
+	      //repaint와 getSize함수는 JComponent의 것 상속
+	      
+	    }
+	    public void paint(Graphics g) { // repaint시 호출됨, 오버라이딩 된거
+	      Graphics2D g2 = (Graphics2D) g;
+	      g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // 안티얼리어싱 적용
+	      paintBackground(g2);
+	      //Color[] colors = { Color.YELLOW, Color.MAGENTA, Color.CYAN , Color.RED, Color.BLUE, Color.PINK};
+
+	      g2.setStroke(new BasicStroke(2)); // 사각형 테두리 굵기
+	      //g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.50f)); // 투명도 0.5
+
+	      for (Shape s : shapes) {
+	        g2.setPaint(Color.BLACK);
+	        g2.draw(s); //테두리 그리기
+	        g2.setPaint(Color.GRAY);
+	        g2.fill(s); //내부 채우기
+	      }//arraylist에 저장된 shape 모두 다시 그리기
+	      
+	      
+	      if (startDrag != null && endDrag != null) {
+	        g2.setPaint(Color.LIGHT_GRAY);
+	        Shape r = makeRectangle(startDrag.x, startDrag.y, endDrag.x, endDrag.y);
+	        g2.draw(r);
+	      }//마우스 드래그중 그려지는 회색 사각형
+	     
+	    }
+
+	    private Rectangle2D.Float makeRectangle(int x1, int y1, int x2, int y2) {
+	      return new Rectangle2D.Float(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2));
+	    }
+	  }
 }
+
+
+// shape 클릭 리스너를 달아서 사각형을 선택하여 크기 조정 할 수 있게 해야함
