@@ -13,6 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JButton;
 
 public class MainFrame extends JFrame {
 
@@ -148,6 +149,9 @@ public class MainFrame extends JFrame {
 		
 		JComboBox comboBox = new JComboBox(componentTypeList);
 		panel_5.add(comboBox);
+		
+		JButton button = new JButton("\uC801\uC6A9");
+		attribute.add(button);
 		
 		JPanel editor = new JPanel();
 		editor.setBackground(Color.DARK_GRAY);
