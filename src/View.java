@@ -198,8 +198,6 @@ public class View {
 	}
 
 	public static class PaintSurface extends JComponent {
-		ArrayList<Shape> shapes = new ArrayList<Shape>();
-
 		Point startDrag, endDrag;
 		
 		private void paintBackground(Graphics2D g2) {
@@ -229,11 +227,11 @@ public class View {
 			// g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
 			// 0.50f)); // 투명도 0.5
 
-			for (Shape s : Model.getShapes()) {
+			for (ComponentObject obj : Model.getObjs()) {
 				g2.setPaint(Color.BLACK);
-				g2.draw(s); // 테두리 그리기
+				g2.draw(obj.r); // 테두리 그리기
 				g2.setPaint(Color.GRAY);
-				g2.fill(s); // 내부 채우기
+				g2.fill(obj.r); // 내부 채우기
 			} // arraylist에 저장된 shape 모두 다시 그리기
 
 			if (startDrag != null && endDrag != null) {
