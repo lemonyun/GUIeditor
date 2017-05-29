@@ -7,6 +7,9 @@ public class Main {
 			public void run() {
 				try {
 					View frame = new View();
+					Model model = new Model();
+					Controller controller = new Controller(model, frame);
+					controller.control();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
