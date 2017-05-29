@@ -16,7 +16,12 @@ public class Controller {
 	}
 	
 	private void updateAttribute(ComponentObject obj){
-	//	view.setTextField(JTextField(((Rectangle2D.Float)(obj).r.x.toString()));
+		view.getTextField().setText(obj.name);
+		view.getTextField_1().setText(Float.toString(((Rectangle2D.Float)(obj.r)).x));
+		view.getTextField_2().setText(Float.toString(((Rectangle2D.Float)(obj.r)).y));
+		view.getTextField_3().setText(Float.toString(((Rectangle2D.Float)(obj.r)).width));
+		view.getTextField_4().setText(Float.toString(((Rectangle2D.Float)(obj.r)).height));
+		
 	}
 
 	public void control() {
