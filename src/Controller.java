@@ -1,10 +1,10 @@
-import java.awt.Paint;
 import java.awt.Point;
 import java.awt.Shape;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 public class Controller {
 	private Model model;
@@ -23,7 +23,16 @@ public class Controller {
 		view.getTextField_4().setText(Float.toString(((Rectangle2D.Float)(obj.r)).height));
 		
 	}
-
+	private boolean ComponentObjectColiderCheck(ArrayList<ComponentObject> list, Shape _s)
+	{
+		for( ComponentObject o : list)
+		{
+			Shape s = o.r;
+		    if(s.getBounds2D().intersects(_s.getBounds2D()))
+		    	return false;
+		}
+		return true;
+	}
 	public void control() {
 
 		view.getEditorPane().addMouseListener(new MouseAdapter() {
@@ -38,9 +47,13 @@ public class Controller {
 				Shape r = ((View.PaintSurface) view.getEditorPane()).makeRectangle(
 						((View.PaintSurface) view.getEditorPane()).startDrag.x,
 						((View.PaintSurface) view.getEditorPane()).startDrag.y, e.getX(), e.getY());
-				ComponentObject temp = new ComponentObject(r, null, null);
-				model.addObj(temp);
-				updateAttribute(temp);
+				
+				if(ComponentObjectColiderCheck(model.getObjs(), r))
+				{
+					ComponentObject temp = new ComponentObject(r, null, null);
+					updateAttribute(temp);
+					model.addObj(temp);
+				}
 				((View.PaintSurface) view.getEditorPane()).startDrag = null;
 				((View.PaintSurface) view.getEditorPane()).endDrag = null;
 				view.getEditorPane().repaint();
