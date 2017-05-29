@@ -6,14 +6,12 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Shape;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -114,6 +112,10 @@ public class View {
 		contentPane.setLayout(new BorderLayout(0, 0));
 
 		JToolBar toolBar = new JToolBar();
+		JButton drawModeBtn = new JButton("drawMode");
+		JButton moveModeBtn = new JButton("moveMode");
+		toolBar.add(drawModeBtn);
+		toolBar.add(moveModeBtn);
 		contentPane.add(toolBar, BorderLayout.NORTH);
 
 		JPanel attribute = new JPanel();
