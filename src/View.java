@@ -1,6 +1,7 @@
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -28,42 +29,19 @@ public class View {
 		return textField;
 	}
 
-	public void setTextField(JTextField textField) {
-		this.textField = textField;
-	}
-
-	public JTextField getTextField_1() {
-		return textField_1;
-	}
-
-	public void setTextField_1(JTextField textField_1) {
-		this.textField_1 = textField_1;
-	}
-
-	public JTextField getTextField_2() {
-		return textField_2;
-	}
-
-	public void setTextField_2(JTextField textField_2) {
-		this.textField_2 = textField_2;
-	}
-
-	public JTextField getTextField_3() {
-		return textField_3;
-	}
-
-	public void setTextField_3(JTextField textField_3) {
-		this.textField_3 = textField_3;
-	}
-
-	public JTextField getTextField_4() {
-		return textField_4;
-	}
-
-	public void setTextField_4(JTextField textField_4) {
-		this.textField_4 = textField_4;
-	}
-
+	public void setTextField(JTextField textField) { this.textField = textField; }
+	public JTextField getTextField_1() {return textField_1;}
+	public void setTextField_1(JTextField textField_1) {this.textField_1 = textField_1;}
+	public JTextField getTextField_2() {return textField_2;}
+	public void setTextField_2(JTextField textField_2) {this.textField_2 = textField_2;}
+	public JTextField getTextField_3() {return textField_3;}
+	public void setTextField_3(JTextField textField_3) {this.textField_3 = textField_3;}
+	public JTextField getTextField_4() {return textField_4;}
+	public void setTextField_4(JTextField textField_4) {this.textField_4 = textField_4;}
+	public JButton getDrawModeBtn() { return drawModeBtn;}
+	public JButton getSelectModeBtn() { return selectModeBtn;}
+	public JFrame getFrame() {return frame;}
+	
 	private JFrame frame;
 	private JPanel contentPane;
 	private JTextField textField;
@@ -73,6 +51,8 @@ public class View {
 	private JTextField textField_4;
 	private String componentTypeList[] = { "button", "label", "333", "444" };
 	private JComponent editorPane;
+	private JButton selectModeBtn;
+	private JButton drawModeBtn;
 	/**
 	 * Launch the application.
 	 */
@@ -83,7 +63,8 @@ public class View {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 450, 300);
 		frame.setSize(1000, 600);
-		frame.setVisible(true);
+	    frame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+		frame.setVisible(true);		
 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -111,8 +92,8 @@ public class View {
 		contentPane.setLayout(new BorderLayout(0, 0));
 
 		JToolBar toolBar = new JToolBar();
-		JButton drawModeBtn = new JButton("drawMode");
-		JButton selectModeBtn = new JButton("selectMode");
+		drawModeBtn = new JButton("drawMode");
+		selectModeBtn = new JButton("selectMode");
 		toolBar.add(drawModeBtn);
 		toolBar.add(selectModeBtn);
 		contentPane.add(toolBar, BorderLayout.NORTH);
