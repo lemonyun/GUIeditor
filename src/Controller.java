@@ -38,6 +38,7 @@ public class Controller {
 		}
 		return true;
 	}
+	
 	public void control() {
 		view.getSelectModeBtn().addActionListener(new ActionListener(){
 			 public void actionPerformed(ActionEvent e){ 

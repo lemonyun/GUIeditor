@@ -53,6 +53,7 @@ public class View {
 	private JComponent editorPane;
 	private JButton selectModeBtn;
 	private JButton drawModeBtn;
+
 	/**
 	 * Launch the application.
 	 */
@@ -101,8 +102,8 @@ public class View {
 		JPanel attribute = new JPanel();
 		editorPane = new PaintSurface();
 		// attribute.setBackground(Color.BLUE);
-		contentPane.add(attribute, BorderLayout.WEST); // ¼Ó¼ºÆäÀÎ
-		contentPane.add(editorPane, BorderLayout.CENTER); // ¿¡µğÅÍÆäÀÎ
+		contentPane.add(attribute, BorderLayout.WEST); // ì†ì„±í˜ì¸
+		contentPane.add(editorPane, BorderLayout.CENTER); // ì—ë””í„°í˜ì¸
 
 		attribute.setLayout(new BoxLayout(attribute, BoxLayout.Y_AXIS));
 
@@ -174,14 +175,14 @@ public class View {
 		 * contentPane.add(editor, BorderLayout.CENTER); editor.setLayout(null);
 		 */
 	}
-	
+
 	public JComponent getEditorPane() {
 		return editorPane;
 	}
 
 	public static class PaintSurface extends JComponent {
 		Point startDrag, endDrag;
-		
+
 		private void paintBackground(Graphics2D g2) {
 			g2.setPaint(Color.LIGHT_GRAY);
 			for (int i = 0; i < getSize().width; i += 10) {
@@ -193,34 +194,49 @@ public class View {
 				Shape line = new Line2D.Float(0, i, getSize().width, i);
 				g2.draw(line);
 			}
-			// repaint¿Í getSizeÇÔ¼ö´Â JComponentÀÇ °Í »ó¼Ó
+			// repaintì™€ getSizeí•¨ìˆ˜ëŠ” JComponentì˜ ê²ƒ ìƒì†
 
 		}
 
-		public void paint(Graphics g) { // repaint½Ã È£ÃâµÊ, ¿À¹ö¶óÀÌµù µÈ°Å
+		public void paint(Graphics g) { // repaintì‹œ í˜¸ì¶œë¨, ì˜¤ë²„ë¼ì´ë”© ëœê±°
 			Graphics2D g2 = (Graphics2D) g;
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // ¾ÈÆ¼¾ó¸®¾î½Ì
-																										// Àû¿ë
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // ì•ˆí‹°ì–¼ë¦¬ì–´ì‹±
+																										// ì ìš©
 			paintBackground(g2);
 			// Color[] colors = { Color.YELLOW, Color.MAGENTA, Color.CYAN ,
 			// Color.RED, Color.BLUE, Color.PINK};
 
-			g2.setStroke(new BasicStroke(2)); // »ç°¢Çü Å×µÎ¸® ±½±â
+			g2.setStroke(new BasicStroke(2)); // ì‚¬ê°í˜• í…Œë‘ë¦¬ êµµê¸°
 			// g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-			// 0.50f)); // Åõ¸íµµ 0.5
+			// 0.50f)); // íˆ¬ëª…ë„ 0.5
 
 			for (ComponentObject obj : Model.getObjs()) {
-				g2.setPaint(Color.BLACK);
-				g2.draw(obj.r); // Å×µÎ¸® ±×¸®±â
-				g2.setPaint(Color.GRAY);
-				g2.fill(obj.r); // ³»ºÎ Ã¤¿ì±â
-			} // arraylist¿¡ ÀúÀåµÈ shape ¸ğµÎ ´Ù½Ã ±×¸®±â
+				if (obj.type == null) {
+					g2.setPaint(Color.GRAY);
+					g2.fill(obj.r);
+					g2.setPaint(Color.BLACK);
+					g2.draw(obj.r);
+				} else {
+					switch (obj.type) {
+					case "button":
+						g2.setPaint(Color.yellow);
+						g2.fill(obj.r); // ë‚´ë¶€ ì±„ìš°ê¸°
+						break;
+					case "label":
+						g2.setPaint(Color.MAGENTA);
+						g2.fill(obj.r); // ë‚´ë¶€ ì±„ìš°ê¸°
+						break;
+					}
+					g2.setPaint(Color.BLACK);
+					g2.draw(obj.r); // í…Œë‘ë¦¬ ê·¸ë¦¬ê¸°
+				}
+			} // arraylistì— ì €ì¥ëœ shape ëª¨ë‘ ë‹¤ì‹œ ê·¸ë¦¬ê¸°
 
 			if (startDrag != null && endDrag != null) {
 				g2.setPaint(Color.LIGHT_GRAY);
 				Shape r = makeRectangle(startDrag.x, startDrag.y, endDrag.x, endDrag.y);
 				g2.draw(r);
-			} // ¸¶¿ì½º µå·¡±×Áß ±×·ÁÁö´Â È¸»ö »ç°¢Çü
+			} // ë§ˆìš°ìŠ¤ ë“œë˜ê·¸ì¤‘ ê·¸ë ¤ì§€ëŠ” íšŒìƒ‰ ì‚¬ê°í˜•
 
 		}
 
