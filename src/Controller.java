@@ -60,7 +60,17 @@ public class Controller {
 							.getEditorPane()).startDrag;
 					view.getEditorPane().repaint();
 					break;
-				case "select" : break;
+				case "select" :
+					ComponentObject o = model.findComponentByPos(e.getX(), e.getY());
+					if(o != null)
+					{
+						updateAttribute(o);
+					}
+					else
+					{
+						System.out.println("no match object");
+					}
+					break;
 				}
 				
 			}
@@ -73,7 +83,9 @@ public class Controller {
 							((View.PaintSurface) view.getEditorPane()).startDrag.x,
 							((View.PaintSurface) view.getEditorPane()).startDrag.y, e.getX(), e.getY());
 					
-					if(ComponentObjectColiderCheck(model.getObjs(), r))
+					if(ComponentObjectColiderCheck(model.getObjs(), r)
+							&& (((View.PaintSurface) view.getEditorPane()).startDrag.x != e.getX())
+							&& (((View.PaintSurface) view.getEditorPane()).startDrag.y != e.getY()))
 					{
 						ComponentObject temp = new ComponentObject(r, null, null);
 						updateAttribute(temp);

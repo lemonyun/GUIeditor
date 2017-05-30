@@ -9,5 +9,6 @@ public class ComponentObject {
 		this.name = name;
 		this.type = type;
 	}
+	public Shape getShape() {return r;}
 	
 }
