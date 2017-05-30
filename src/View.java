@@ -73,6 +73,7 @@ public class View {
 	private JTextField textField_4;
 	private String componentTypeList[] = { "button", "label", "333", "444" };
 	private JComponent editorPane;
+
 	/**
 	 * Launch the application.
 	 */
@@ -193,14 +194,14 @@ public class View {
 		 * contentPane.add(editor, BorderLayout.CENTER); editor.setLayout(null);
 		 */
 	}
-	
+
 	public JComponent getEditorPane() {
 		return editorPane;
 	}
 
 	public static class PaintSurface extends JComponent {
 		Point startDrag, endDrag;
-		
+
 		private void paintBackground(Graphics2D g2) {
 			g2.setPaint(Color.LIGHT_GRAY);
 			for (int i = 0; i < getSize().width; i += 10) {
@@ -229,10 +230,25 @@ public class View {
 			// 0.50f)); // 투명도 0.5
 
 			for (ComponentObject obj : Model.getObjs()) {
-				g2.setPaint(Color.BLACK);
-				g2.draw(obj.r); // 테두리 그리기
-				g2.setPaint(Color.GRAY);
-				g2.fill(obj.r); // 내부 채우기
+				if (obj.type == null) {
+					g2.setPaint(Color.GRAY);
+					g2.fill(obj.r);
+					g2.setPaint(Color.BLACK);
+					g2.draw(obj.r);
+				} else {
+					switch (obj.type) {
+					case "button":
+						g2.setPaint(Color.yellow);
+						g2.fill(obj.r); // 내부 채우기
+						break;
+					case "label":
+						g2.setPaint(Color.MAGENTA);
+						g2.fill(obj.r); // 내부 채우기
+						break;
+					}
+					g2.setPaint(Color.BLACK);
+					g2.draw(obj.r); // 테두리 그리기
+				}
 			} // arraylist에 저장된 shape 모두 다시 그리기
 
 			if (startDrag != null && endDrag != null) {

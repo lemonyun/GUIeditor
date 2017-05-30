@@ -6,7 +6,6 @@ public class Model {
 	private static ArrayList<ComponentObject> objs = new ArrayList<ComponentObject>();
 	
 	
-	
 	public void addObj(ComponentObject obj){
 		objs.add(obj);
 	}

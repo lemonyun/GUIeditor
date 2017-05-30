@@ -33,6 +33,7 @@ public class Controller {
 		}
 		return true;
 	}
+	
 	public void control() {
 
 		view.getEditorPane().addMouseListener(new MouseAdapter() {
