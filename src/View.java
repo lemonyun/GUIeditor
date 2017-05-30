@@ -1,6 +1,7 @@
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -28,42 +29,19 @@ public class View {
 		return textField;
 	}
 
-	public void setTextField(JTextField textField) {
-		this.textField = textField;
-	}
-
-	public JTextField getTextField_1() {
-		return textField_1;
-	}
-
-	public void setTextField_1(JTextField textField_1) {
-		this.textField_1 = textField_1;
-	}
-
-	public JTextField getTextField_2() {
-		return textField_2;
-	}
-
-	public void setTextField_2(JTextField textField_2) {
-		this.textField_2 = textField_2;
-	}
-
-	public JTextField getTextField_3() {
-		return textField_3;
-	}
-
-	public void setTextField_3(JTextField textField_3) {
-		this.textField_3 = textField_3;
-	}
-
-	public JTextField getTextField_4() {
-		return textField_4;
-	}
-
-	public void setTextField_4(JTextField textField_4) {
-		this.textField_4 = textField_4;
-	}
-
+	public void setTextField(JTextField textField) { this.textField = textField; }
+	public JTextField getTextField_1() {return textField_1;}
+	public void setTextField_1(JTextField textField_1) {this.textField_1 = textField_1;}
+	public JTextField getTextField_2() {return textField_2;}
+	public void setTextField_2(JTextField textField_2) {this.textField_2 = textField_2;}
+	public JTextField getTextField_3() {return textField_3;}
+	public void setTextField_3(JTextField textField_3) {this.textField_3 = textField_3;}
+	public JTextField getTextField_4() {return textField_4;}
+	public void setTextField_4(JTextField textField_4) {this.textField_4 = textField_4;}
+	public JButton getDrawModeBtn() { return drawModeBtn;}
+	public JButton getSelectModeBtn() { return selectModeBtn;}
+	public JFrame getFrame() {return frame;}
+	
 	private JFrame frame;
 	private JPanel contentPane;
 	private JTextField textField;
@@ -73,6 +51,8 @@ public class View {
 	private JTextField textField_4;
 	private String componentTypeList[] = { "button", "label", "333", "444" };
 	private JComponent editorPane;
+	private JButton selectModeBtn;
+	private JButton drawModeBtn;
 
 	/**
 	 * Launch the application.
@@ -84,7 +64,8 @@ public class View {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 450, 300);
 		frame.setSize(1000, 600);
-		frame.setVisible(true);
+	    frame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+		frame.setVisible(true);		
 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -112,8 +93,8 @@ public class View {
 		contentPane.setLayout(new BorderLayout(0, 0));
 
 		JToolBar toolBar = new JToolBar();
-		JButton drawModeBtn = new JButton("drawMode");
-		JButton selectModeBtn = new JButton("selectMode");
+		drawModeBtn = new JButton("drawMode");
+		selectModeBtn = new JButton("selectMode");
 		toolBar.add(drawModeBtn);
 		toolBar.add(selectModeBtn);
 		contentPane.add(toolBar, BorderLayout.NORTH);
@@ -121,8 +102,8 @@ public class View {
 		JPanel attribute = new JPanel();
 		editorPane = new PaintSurface();
 		// attribute.setBackground(Color.BLUE);
-		contentPane.add(attribute, BorderLayout.WEST); // ¼Ó¼ºÆäÀÎ
-		contentPane.add(editorPane, BorderLayout.CENTER); // ¿¡µğÅÍÆäÀÎ
+		contentPane.add(attribute, BorderLayout.WEST); // ì†ì„±í˜ì¸
+		contentPane.add(editorPane, BorderLayout.CENTER); // ì—ë””í„°í˜ì¸
 
 		attribute.setLayout(new BoxLayout(attribute, BoxLayout.Y_AXIS));
 
@@ -213,21 +194,21 @@ public class View {
 				Shape line = new Line2D.Float(0, i, getSize().width, i);
 				g2.draw(line);
 			}
-			// repaint¿Í getSizeÇÔ¼ö´Â JComponentÀÇ °Í »ó¼Ó
+			// repaintì™€ getSizeí•¨ìˆ˜ëŠ” JComponentì˜ ê²ƒ ìƒì†
 
 		}
 
-		public void paint(Graphics g) { // repaint½Ã È£ÃâµÊ, ¿À¹ö¶óÀÌµù µÈ°Å
+		public void paint(Graphics g) { // repaintì‹œ í˜¸ì¶œë¨, ì˜¤ë²„ë¼ì´ë”© ëœê±°
 			Graphics2D g2 = (Graphics2D) g;
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // ¾ÈÆ¼¾ó¸®¾î½Ì
-																										// Àû¿ë
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // ì•ˆí‹°ì–¼ë¦¬ì–´ì‹±
+																										// ì ìš©
 			paintBackground(g2);
 			// Color[] colors = { Color.YELLOW, Color.MAGENTA, Color.CYAN ,
 			// Color.RED, Color.BLUE, Color.PINK};
 
-			g2.setStroke(new BasicStroke(2)); // »ç°¢Çü Å×µÎ¸® ±½±â
+			g2.setStroke(new BasicStroke(2)); // ì‚¬ê°í˜• í…Œë‘ë¦¬ êµµê¸°
 			// g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-			// 0.50f)); // Åõ¸íµµ 0.5
+			// 0.50f)); // íˆ¬ëª…ë„ 0.5
 
 			for (ComponentObject obj : Model.getObjs()) {
 				if (obj.type == null) {
@@ -239,23 +220,23 @@ public class View {
 					switch (obj.type) {
 					case "button":
 						g2.setPaint(Color.yellow);
-						g2.fill(obj.r); // ³»ºÎ Ã¤¿ì±â
+						g2.fill(obj.r); // ë‚´ë¶€ ì±„ìš°ê¸°
 						break;
 					case "label":
 						g2.setPaint(Color.MAGENTA);
-						g2.fill(obj.r); // ³»ºÎ Ã¤¿ì±â
+						g2.fill(obj.r); // ë‚´ë¶€ ì±„ìš°ê¸°
 						break;
 					}
 					g2.setPaint(Color.BLACK);
-					g2.draw(obj.r); // Å×µÎ¸® ±×¸®±â
+					g2.draw(obj.r); // í…Œë‘ë¦¬ ê·¸ë¦¬ê¸°
 				}
-			} // arraylist¿¡ ÀúÀåµÈ shape ¸ğµÎ ´Ù½Ã ±×¸®±â
+			} // arraylistì— ì €ì¥ëœ shape ëª¨ë‘ ë‹¤ì‹œ ê·¸ë¦¬ê¸°
 
 			if (startDrag != null && endDrag != null) {
 				g2.setPaint(Color.LIGHT_GRAY);
 				Shape r = makeRectangle(startDrag.x, startDrag.y, endDrag.x, endDrag.y);
 				g2.draw(r);
-			} // ¸¶¿ì½º µå·¡±×Áß ±×·ÁÁö´Â È¸»ö »ç°¢Çü
+			} // ë§ˆìš°ìŠ¤ ë“œë˜ê·¸ì¤‘ ê·¸ë ¤ì§€ëŠ” íšŒìƒ‰ ì‚¬ê°í˜•
 
 		}
 

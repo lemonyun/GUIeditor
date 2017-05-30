@@ -9,13 +9,20 @@ public class Model {
 	public void addObj(ComponentObject obj){
 		objs.add(obj);
 	}
-
-
-
 	public static ArrayList<ComponentObject> getObjs() {
 		return objs;
 	}
-	
+	public ComponentObject findComponentByPos(final int x, final int y)
+	{
+		for(ComponentObject o : objs)
+		{
+			if( o.getShape().intersects(x, y, 1, 1))
+			{
+				return o;
+			}
+		}
+		return null;
+	}
 	
 	
 }

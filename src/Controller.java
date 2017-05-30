@@ -1,15 +1,20 @@
+import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.Shape;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import javax.swing.JDialog;
+
 public class Controller {
 	private Model model;
 	private View view;
-
+	private String mode = "draw";
 	public Controller(Model model, View view) {
 		this.model = model;
 		this.view = view;
@@ -35,45 +40,64 @@ public class Controller {
 	}
 	
 	public void control() {
-
+		view.getSelectModeBtn().addActionListener(new ActionListener(){
+			 public void actionPerformed(ActionEvent e){ 
+				 mode = "select";
+				    view.getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			 }
+		});
+		view.getDrawModeBtn().addActionListener(new ActionListener(){
+			 public void actionPerformed(ActionEvent e){  mode = "draw";
+			    view.getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));}
+		});
+		
 		view.getEditorPane().addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				((View.PaintSurface) view.getEditorPane()).startDrag = new Point(e.getX(), e.getY());
-				((View.PaintSurface) view.getEditorPane()).endDrag = ((View.PaintSurface) view
-						.getEditorPane()).startDrag;
-				view.getEditorPane().repaint();
+				switch(mode)
+				{
+				case "draw" : 
+					((View.PaintSurface) view.getEditorPane()).startDrag = new Point(e.getX(), e.getY());
+					((View.PaintSurface) view.getEditorPane()).endDrag = ((View.PaintSurface) view
+							.getEditorPane()).startDrag;
+					view.getEditorPane().repaint();
+					break;
+				case "select" :
+					ComponentObject o = model.findComponentByPos(e.getX(), e.getY());
+					if(o != null)
+					{
+						updateAttribute(o);
+					}
+					else
+					{
+						System.out.println("no match object");
+					}
+					break;
+				}
+				
 			}
 
 			public void mouseReleased(MouseEvent e) {
-				int x, y;
-				x = e.getX();
-				y = e.getY();
-			
-				if(x > view.getEditorPane().getWidth())
-					x = view.getEditorPane().getWidth();
-				if(y > view.getEditorPane().getHeight())
-					y = view.getEditorPane().getHeight();
-				if(x < 0)
-					x = 0;
-				if(y < 0)
-					y = 0;
-					
-				Shape r = ((View.PaintSurface) view.getEditorPane()).makeRectangle(
-						((View.PaintSurface) view.getEditorPane()).startDrag.x,
-						((View.PaintSurface) view.getEditorPane()).startDrag.y, e.getX(), e.getY());
-				
-				if(ComponentObjectColiderCheck(model.getObjs(), r))
+				switch(mode)
 				{
-					ComponentObject temp = new ComponentObject(r, null, null);
-					updateAttribute(temp);
-					model.addObj(temp);
+				case "draw" : 
+					Shape r = ((View.PaintSurface) view.getEditorPane()).makeRectangle(
+							((View.PaintSurface) view.getEditorPane()).startDrag.x,
+							((View.PaintSurface) view.getEditorPane()).startDrag.y, e.getX(), e.getY());
+					
+					if(ComponentObjectColiderCheck(model.getObjs(), r)
+							&& (((View.PaintSurface) view.getEditorPane()).startDrag.x != e.getX())
+							&& (((View.PaintSurface) view.getEditorPane()).startDrag.y != e.getY()))
+					{
+						ComponentObject temp = new ComponentObject(r, null, null);
+						updateAttribute(temp);
+						model.addObj(temp);
+					}
+					((View.PaintSurface) view.getEditorPane()).startDrag = null;
+					((View.PaintSurface) view.getEditorPane()).endDrag = null;
+					view.getEditorPane().repaint();
+					break;
+				case "select" : break;
 				}
-
-				((View.PaintSurface) view.getEditorPane()).startDrag = null;
-				((View.PaintSurface) view.getEditorPane()).endDrag = null;
-				view.getEditorPane().repaint();
-				
-				
 			}
 
 			@Override
