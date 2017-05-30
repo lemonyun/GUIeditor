@@ -1,6 +1,7 @@
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -39,6 +40,7 @@ public class View {
 	public void setTextField_4(JTextField textField_4) {this.textField_4 = textField_4;}
 	public JButton getDrawModeBtn() { return drawModeBtn;}
 	public JButton getSelectModeBtn() { return selectModeBtn;}
+	public JFrame getFrame() {return frame;}
 	
 	private JFrame frame;
 	private JPanel contentPane;
@@ -61,7 +63,8 @@ public class View {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 450, 300);
 		frame.setSize(1000, 600);
-		frame.setVisible(true);
+	    frame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+		frame.setVisible(true);		
 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
