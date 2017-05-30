@@ -1,15 +1,19 @@
 import java.awt.Point;
 import java.awt.Shape;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import javax.swing.JDialog;
+
 public class Controller {
 	private Model model;
 	private View view;
-
+	private String mode = "draw";
 	public Controller(Model model, View view) {
 		this.model = model;
 		this.view = view;
@@ -34,7 +38,13 @@ public class Controller {
 		return true;
 	}
 	public void control() {
-
+		view.getSelectModeBtn().addActionListener(new ActionListener(){
+			 public void actionPerformed(ActionEvent e){  mode = "select";}
+		});
+		view.getDrawModeBtn().addActionListener(new ActionListener(){
+			 public void actionPerformed(ActionEvent e){  mode = "draw";}
+		});
+		
 		view.getEditorPane().addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				((View.PaintSurface) view.getEditorPane()).startDrag = new Point(e.getX(), e.getY());
