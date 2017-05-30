@@ -1,5 +1,6 @@
 import java.awt.Cursor;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +16,7 @@ public class Controller {
 	private Model model;
 	private View view;
 	private String mode = "draw";
+	private ComponentObject currentObj = null;
 	public Controller(Model model, View view) {
 		this.model = model;
 		this.view = view;
@@ -50,6 +52,24 @@ public class Controller {
 			 public void actionPerformed(ActionEvent e){  mode = "draw";
 			    view.getFrame().setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));}
 		});
+		view.getApplyBtn().addActionListener(new ActionListener(){
+			 public void actionPerformed(ActionEvent e){ 
+				 System.out.println(Float.parseFloat(view.getTextField_1().getText()));
+				 
+				 Shape r = new Rectangle2D.Float(
+						 Float.parseFloat(view.getTextField_1().getText()),
+						 Float.parseFloat(view.getTextField_2().getText()), 
+						 Float.parseFloat(view.getTextField_3().getText()), 
+						 Float.parseFloat(view.getTextField_4().getText()));
+				 if( ComponentObjectColiderCheck(model.getObjs(), r) ) // 변수이름 사용 자기자신 예외
+				 {
+					currentObj.setShape(r); 
+					view.getEditorPane().repaint();
+				 }
+				 else
+					 System.out.println("is overlapped");
+			 }	 
+		});
 		
 		view.getEditorPane().addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -65,7 +85,8 @@ public class Controller {
 					ComponentObject o = model.findComponentByPos(e.getX(), e.getY());
 					if(o != null)
 					{
-						updateAttribute(o);
+						currentObj = o;
+						updateAttribute(currentObj);
 					}
 					else
 					{
@@ -91,6 +112,7 @@ public class Controller {
 						ComponentObject temp = new ComponentObject(r, null, null);
 						updateAttribute(temp);
 						model.addObj(temp);
+						currentObj = temp;
 					}
 					((View.PaintSurface) view.getEditorPane()).startDrag = null;
 					((View.PaintSurface) view.getEditorPane()).endDrag = null;

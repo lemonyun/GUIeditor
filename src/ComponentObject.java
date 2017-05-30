@@ -10,5 +10,8 @@ public class ComponentObject {
 		this.type = type;
 	}
 	public Shape getShape() {return r;}
-	
+	public void setShape(Shape r)
+	{
+		this.r = r ;
+	}
 }
