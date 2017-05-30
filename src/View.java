@@ -102,8 +102,8 @@ public class View {
 		JPanel attribute = new JPanel();
 		editorPane = new PaintSurface();
 		// attribute.setBackground(Color.BLUE);
-		contentPane.add(attribute, BorderLayout.WEST); // 속성페인
-		contentPane.add(editorPane, BorderLayout.CENTER); // 에디터페인
+		contentPane.add(attribute, BorderLayout.WEST); 
+		contentPane.add(editorPane, BorderLayout.CENTER); 
 
 		attribute.setLayout(new BoxLayout(attribute, BoxLayout.Y_AXIS));
 
@@ -194,49 +194,47 @@ public class View {
 				Shape line = new Line2D.Float(0, i, getSize().width, i);
 				g2.draw(line);
 			}
-			// repaint와 getSize함수는 JComponent의 것 상속
-
+			// 
 		}
 
-		public void paint(Graphics g) { // repaint시 호출됨, 오버라이딩 된거
+		public void paint(Graphics g) { 
 			Graphics2D g2 = (Graphics2D) g;
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // 안티얼리어싱
-																										// 적용
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); 
+			
 			paintBackground(g2);
 			// Color[] colors = { Color.YELLOW, Color.MAGENTA, Color.CYAN ,
 			// Color.RED, Color.BLUE, Color.PINK};
 
-			g2.setStroke(new BasicStroke(2)); // 사각형 테두리 굵기
+			g2.setStroke(new BasicStroke(2)); 
 			// g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-			// 0.50f)); // 투명도 0.5
-
+			// 0.50f));
 			for (ComponentObject obj : Model.getObjs()) {
-				if (obj.type == null) {
+				if (obj.getType() == null) {
 					g2.setPaint(Color.GRAY);
-					g2.fill(obj.r);
+					g2.fill(obj.getShape());
 					g2.setPaint(Color.BLACK);
-					g2.draw(obj.r);
+					g2.draw(obj.getShape());
 				} else {
-					switch (obj.type) {
+					switch (obj.getType()) {
 					case "button":
 						g2.setPaint(Color.yellow);
-						g2.fill(obj.r); // 내부 채우기
+						g2.fill(obj.getShape());
 						break;
 					case "label":
 						g2.setPaint(Color.MAGENTA);
-						g2.fill(obj.r); // 내부 채우기
+						g2.fill(obj.getShape()); 
 						break;
 					}
 					g2.setPaint(Color.BLACK);
-					g2.draw(obj.r); // 테두리 그리기
+					g2.draw(obj.getShape()); 
 				}
-			} // arraylist에 저장된 shape 모두 다시 그리기
+			} 
 
 			if (startDrag != null && endDrag != null) {
 				g2.setPaint(Color.LIGHT_GRAY);
 				Shape r = makeRectangle(startDrag.x, startDrag.y, endDrag.x, endDrag.y);
 				g2.draw(r);
-			} // 마우스 드래그중 그려지는 회색 사각형
+			} 
 
 		}
 
