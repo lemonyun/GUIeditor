@@ -44,6 +44,19 @@ public class Controller {
 			}
 
 			public void mouseReleased(MouseEvent e) {
+				int x, y;
+				x = e.getX();
+				y = e.getY();
+			
+				if(x > view.getEditorPane().getWidth())
+					x = view.getEditorPane().getWidth();
+				if(y > view.getEditorPane().getHeight())
+					y = view.getEditorPane().getHeight();
+				if(x < 0)
+					x = 0;
+				if(y < 0)
+					y = 0;
+					
 				Shape r = ((View.PaintSurface) view.getEditorPane()).makeRectangle(
 						((View.PaintSurface) view.getEditorPane()).startDrag.x,
 						((View.PaintSurface) view.getEditorPane()).startDrag.y, e.getX(), e.getY());
@@ -54,9 +67,11 @@ public class Controller {
 					updateAttribute(temp);
 					model.addObj(temp);
 				}
+
 				((View.PaintSurface) view.getEditorPane()).startDrag = null;
 				((View.PaintSurface) view.getEditorPane()).endDrag = null;
 				view.getEditorPane().repaint();
+				
 				
 			}
 
