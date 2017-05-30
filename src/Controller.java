@@ -17,8 +17,7 @@ public class Controller {
 	private View view;
 	private String mode = "draw";
 
-	Point selectPoint;
-	ComponentObject temp;
+	private Point selectPoint;
 
 	private ComponentObject currentObj = null;
 
@@ -36,10 +35,12 @@ public class Controller {
 
 	}
 
-	private boolean ComponentObjectColiderCheck(ArrayList<ComponentObject> list, Shape _s) {
+	private boolean ComponentObjectColiderCheck(ArrayList<ComponentObject> list, ComponentObject _o) {
 		for (ComponentObject o : list) {
+			if (o.getName() == _o.getName())
+				continue;
 			Shape s = o.getShape();
-			if (s.getBounds2D().intersects(_s.getBounds2D()))
+			if (s.getBounds2D().intersects(_o.getShape().getBounds2D()))
 				return false;
 		}
 		return true;
@@ -59,25 +60,24 @@ public class Controller {
 			}
 		});
 
-		view.getApplyBtn().addActionListener(new ActionListener(){
-			 public void actionPerformed(ActionEvent e){ 
-				 System.out.println(Float.parseFloat(view.getTextField_1().getText()));
-				 
-				 Shape r = new Rectangle2D.Float(
-						 Float.parseFloat(view.getTextField_1().getText()),
-						 Float.parseFloat(view.getTextField_2().getText()), 
-						 Float.parseFloat(view.getTextField_3().getText()), 
-						 Float.parseFloat(view.getTextField_4().getText()));
-				 if( ComponentObjectColiderCheck(model.getObjs(), r) ) // 변수이름 사용 자기자신 예외
-				 {
-					currentObj.setShape(r); 
-					view.getEditorPane().repaint();
-				 }
-				 else
-					 System.out.println("is overlapped");
-			 }	 
+		view.getApplyBtn().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(Float.parseFloat(view.getTextField_1().getText()));
+
+				Shape r = new Rectangle2D.Float(Float.parseFloat(view.getTextField_1().getText()),
+						Float.parseFloat(view.getTextField_2().getText()),
+						Float.parseFloat(view.getTextField_3().getText()),
+						Float.parseFloat(view.getTextField_4().getText()));
+
+				currentObj.setName(view.getTextField().getText());
+				currentObj.setType(view.getComboBox().getSelectedItem().toString());
+				if (ComponentObjectColiderCheck(model.getObjs(), currentObj)) {
+					currentObj.setShape(r);
+				} else
+					System.out.println("is overlapped");
+				view.getEditorPane().repaint();
+			}
 		});
-		
 
 		view.getEditorPane().addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -89,17 +89,14 @@ public class Controller {
 					view.getEditorPane().repaint();
 					break;
 
-				case "select" :
-          selectPoint = new Point(e.getX(), e.getY());
-          temp = model.findComponentByPos(e.getX(), e.getY());
+				case "select":
+					selectPoint = new Point(e.getX(), e.getY());
+					currentObj = model.findComponentByPos(e.getX(), e.getY());
 					ComponentObject o = model.findComponentByPos(e.getX(), e.getY());
-					if(o != null)
-					{
+					if (o != null) {
 						currentObj = o;
 						updateAttribute(currentObj);
-					}
-					else
-					{
+					} else {
 
 						System.out.println("no match object");
 					}
@@ -109,34 +106,37 @@ public class Controller {
 			}
 
 			public void mouseReleased(MouseEvent e) {
-				Point p1 = new Point(((View.PaintSurface) view.getEditorPane()).startDrag.x, ((View.PaintSurface) view.getEditorPane()).startDrag.y);
-				Point p2 = new Point(((View.PaintSurface) view.getEditorPane()).endDrag.x, ((View.PaintSurface) view.getEditorPane()).endDrag.y);
+
 				switch (mode) {
-				
+
 				case "draw":
 					Shape r = ((View.PaintSurface) view.getEditorPane()).makeRectangle(
 							((View.PaintSurface) view.getEditorPane()).startDrag.x,
 							((View.PaintSurface) view.getEditorPane()).startDrag.y, e.getX(), e.getY());
-
-					if (ComponentObjectColiderCheck(model.getObjs(), r)
+					currentObj = new ComponentObject(r, null, null);
+					if (ComponentObjectColiderCheck(model.getObjs(), currentObj)
 							&& (((View.PaintSurface) view.getEditorPane()).startDrag.x != e.getX())
 							&& (((View.PaintSurface) view.getEditorPane()).startDrag.y != e.getY())) {
-						temp = new ComponentObject(r, null, null);
-						updateAttribute(temp);
-						model.addObj(temp);
-						currentObj = temp;
+						// currentObj = new ComponentObject(r, null, null);
+						updateAttribute(currentObj);
+						model.addObj(currentObj);
 					}
 					((View.PaintSurface) view.getEditorPane()).startDrag = null;
 					((View.PaintSurface) view.getEditorPane()).endDrag = null;
 					view.getEditorPane().repaint();
 					break;
 				case "select":
-					temp.changeR(p1 ,p2);
-					if(ComponentObjectColiderCheck(model.getObjs(), temp.getShape())){
-						
-						updateAttribute(temp);
-						model.addObj(temp);
-						
+					if(((View.PaintSurface) view.getEditorPane()).startDrag == null)
+						break;
+					Point p1 = new Point(((View.PaintSurface) view.getEditorPane()).startDrag.x,
+							((View.PaintSurface) view.getEditorPane()).startDrag.y);
+					Point p2 = new Point(((View.PaintSurface) view.getEditorPane()).endDrag.x,
+							((View.PaintSurface) view.getEditorPane()).endDrag.y);
+					if (ComponentObjectColiderCheck(model.getObjs(), currentObj.changeR(p1, p2))) {
+						model.delObj(currentObj);
+						updateAttribute(currentObj.changeR(p1, p2));
+						model.addObj(currentObj.changeR(p1, p2));
+
 					}
 					((View.PaintSurface) view.getEditorPane()).startDrag = null;
 					((View.PaintSurface) view.getEditorPane()).endDrag = null;
@@ -160,15 +160,15 @@ public class Controller {
 					view.getEditorPane().repaint();
 					break;
 				case "select":
-					temp = model.findComponentByPos(selectPoint.x, selectPoint.y);
+					currentObj = model.findComponentByPos(selectPoint.x, selectPoint.y);
 
 					((View.PaintSurface) view.getEditorPane()).startDrag = new Point(
-							(e.getX() - (selectPoint.x - temp.getstartX())),
-							(e.getY() - (selectPoint.y - temp.getstartY())));
+							(e.getX() - (selectPoint.x - currentObj.getstartX())),
+							(e.getY() - (selectPoint.y - currentObj.getstartY())));
 
 					((View.PaintSurface) view.getEditorPane()).endDrag = new Point(
-							(e.getX() - (selectPoint.x - temp.getstartX())) + temp.getWidth(),
-							(e.getY() - (selectPoint.y - temp.getstartY())) + temp.getHeight());
+							(e.getX() - (selectPoint.x - currentObj.getstartX())) + currentObj.getWidth(),
+							(e.getY() - (selectPoint.y - currentObj.getstartY())) + currentObj.getHeight());
 					view.getEditorPane().repaint();
 					break;
 				}

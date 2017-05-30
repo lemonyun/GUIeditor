@@ -42,6 +42,7 @@ public class View {
 	public JButton getSelectModeBtn() { return selectModeBtn;}
 	public JFrame getFrame() {return frame;}
 	public JButton getApplyBtn() {return applyBtn;}
+	public JComboBox getComboBox() {return comboBox;}
 	
 	private JFrame frame;
 	private JPanel contentPane;
@@ -55,7 +56,8 @@ public class View {
 	private JButton selectModeBtn;
 	private JButton drawModeBtn;
 	private JButton applyBtn;
-
+	private JComboBox comboBox;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -169,7 +171,7 @@ public class View {
 		JLabel lblType = new JLabel("type");
 		panel_5.add(lblType);
 
-		JComboBox comboBox = new JComboBox(componentTypeList);
+		comboBox = new JComboBox(componentTypeList);
 		panel_5.add(comboBox);
 		
 		applyBtn = new JButton("apply");
