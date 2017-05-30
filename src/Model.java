@@ -9,6 +9,9 @@ public class Model {
 	public void addObj(ComponentObject obj){
 		objs.add(obj);
 	}
+	public void delObj(ComponentObject obj){
+		objs.remove(obj);
+	}
 	public static ArrayList<ComponentObject> getObjs() {
 		return objs;
 	}

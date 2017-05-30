@@ -32,11 +32,20 @@ public class ComponentObject {
 	public String getName(){
 		return name;
 	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	public String getType(){
 		return type;
 	}
-	public void changeR(Point p1, Point p2){
-		r = new Rectangle2D.Float(Math.min(p1.x, p2.x), Math.min(p1.y, p2.y), Math.abs(p1.x - p2.x), Math.abs(p1.y - p2.y));
+	public ComponentObject changeR(Point p1, Point p2){
+		
+		Rectangle2D.Float r = new Rectangle2D.Float(Math.min(p1.x, p2.x), Math.min(p1.y, p2.y), Math.abs(p1.x - p2.x), Math.abs(p1.y - p2.y));
+		return new ComponentObject(r, name, type);
 	}
 	
 
