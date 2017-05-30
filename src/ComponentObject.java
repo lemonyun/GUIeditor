@@ -12,6 +12,7 @@ public class ComponentObject {
 		this.type = type;
 	}
 	public Shape getShape() {return r;}
+
 	
 	public int getstartX(){
 		return Math.round(((Rectangle2D.Float)(this.r)).x);
@@ -38,4 +39,10 @@ public class ComponentObject {
 		r = new Rectangle2D.Float(Math.min(p1.x, p2.x), Math.min(p1.y, p2.y), Math.abs(p1.x - p2.x), Math.abs(p1.y - p2.y));
 	}
 	
+
+	public void setShape(Shape r)
+	{
+		this.r = r ;
+	}
+
 }
