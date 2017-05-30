@@ -41,6 +41,7 @@ public class View {
 	public JButton getDrawModeBtn() { return drawModeBtn;}
 	public JButton getSelectModeBtn() { return selectModeBtn;}
 	public JFrame getFrame() {return frame;}
+	public JButton getApplyBtn() {return applyBtn;}
 	
 	private JFrame frame;
 	private JPanel contentPane;
@@ -53,6 +54,7 @@ public class View {
 	private JComponent editorPane;
 	private JButton selectModeBtn;
 	private JButton drawModeBtn;
+	private JButton applyBtn;
 	/**
 	 * Launch the application.
 	 */
@@ -168,7 +170,9 @@ public class View {
 
 		JComboBox comboBox = new JComboBox(componentTypeList);
 		panel_5.add(comboBox);
-
+		
+		applyBtn = new JButton("apply");
+		attribute.add(applyBtn);
 		/*
 		 * JPanel editor = new JPanel(); editor.setBackground(Color.DARK_GRAY);
 		 * contentPane.add(editor, BorderLayout.CENTER); editor.setLayout(null);
