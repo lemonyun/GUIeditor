@@ -1,3 +1,4 @@
+import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -30,6 +31,7 @@ public class View {
 		return textField;
 	}
 
+
 	public void setTextField(JTextField textField) { this.textField = textField; }
 	public JTextField getTextField_1() {return textField_1;}
 	public void setTextField_1(JTextField textField_1) {this.textField_1 = textField_1;}
@@ -50,6 +52,7 @@ public class View {
 	public JMenuItem getMnMakejava() {return mnMakejava;}
 	public JMenuItem getMnNew() {return mnNew;}
 	
+
 	private JFrame frame;
 	private JPanel contentPane;
 	private JTextField textField;
@@ -63,11 +66,13 @@ public class View {
 	private JButton drawModeBtn;
 	private JButton applyBtn;
 	private JComboBox comboBox;
+
 	private JMenuItem mnNew;
 	private JMenuItem mnOpen;
 	private JMenuItem mnSave;
 	private JMenuItem mnSaveAs;
 	private JMenuItem mnMakejava;
+
 	/**
 	 * Launch the application.
 	 */
@@ -78,8 +83,8 @@ public class View {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 450, 300);
 		frame.setSize(1000, 600);
-	    frame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-		frame.setVisible(true);		
+		frame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+		frame.setVisible(true);
 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -119,10 +124,10 @@ public class View {
 		JPanel attribute = new JPanel();
 		editorPane = new PaintSurface();
 		// attribute.setBackground(Color.BLUE);
+
 		editorPane.setVisible(false);
 		contentPane.add(attribute, BorderLayout.WEST); 
 		contentPane.add(editorPane, BorderLayout.CENTER);
-		
 
 		attribute.setLayout(new BoxLayout(attribute, BoxLayout.Y_AXIS));
 
@@ -187,8 +192,9 @@ public class View {
 		panel_5.add(lblType);
 
 		comboBox = new JComboBox(componentTypeList);
+		comboBox.setEditable(true);
 		panel_5.add(comboBox);
-		
+
 		applyBtn = new JButton("apply");
 		attribute.add(applyBtn);
 		/*
@@ -215,21 +221,21 @@ public class View {
 				Shape line = new Line2D.Float(0, i, getSize().width, i);
 				g2.draw(line);
 			}
-			// 
+			//
 		}
 
-		public void paint(Graphics g) { 
+		public void paint(Graphics g) {
 			Graphics2D g2 = (Graphics2D) g;
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); 
-			
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
 			paintBackground(g2);
 			// Color[] colors = { Color.YELLOW, Color.MAGENTA, Color.CYAN ,
 			// Color.RED, Color.BLUE, Color.PINK};
 
-			g2.setStroke(new BasicStroke(2)); 
-			// g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-			// 0.50f));
+			g2.setStroke(new BasicStroke(2));
+
 			for (ComponentObject obj : Model.getObjs()) {
+
 				if (obj.getType() == null) {
 					g2.setPaint(Color.GRAY);
 					g2.fill(obj.getShape());
@@ -243,19 +249,36 @@ public class View {
 						break;
 					case "label":
 						g2.setPaint(Color.MAGENTA);
-						g2.fill(obj.getShape()); 
+						g2.fill(obj.getShape());
 						break;
 					}
 					g2.setPaint(Color.BLACK);
-					g2.draw(obj.getShape()); 
+					g2.draw(obj.getShape());
 				}
-			} 
+				if (obj == Controller.getCurrentObj()) {
+					Shape r = makeRectangle(obj.getstartX(), obj.getstartY(), obj.getstartX() + 30, obj.getstartY() + 30);
+					g2.setPaint(Color.LIGHT_GRAY);
+					g2.fill(r);
+					g2.draw(r);
+					r = makeRectangle(obj.getstartX()+obj.getWidth() - 30, obj.getstartY(), obj.getstartX()+obj.getWidth(), obj.getstartY() + 30);
+					g2.fill(r);
+					g2.draw(r);
+					
+					r = makeRectangle(obj.getstartX(), obj.getstartY()+obj.getHeight() - 30, obj.getstartX() + 30, obj.getstartY()+obj.getHeight());
+					g2.fill(r);
+					g2.draw(r);
+					r = makeRectangle(obj.getstartX()+obj.getWidth() - 30, obj.getstartY()+obj.getHeight() - 30, obj.getstartX()+obj.getWidth(), obj.getstartY()+obj.getHeight());
+					g2.fill(r);
+					g2.draw(r);
+					
+				}
+			}
 
 			if (startDrag != null && endDrag != null) {
 				g2.setPaint(Color.LIGHT_GRAY);
 				Shape r = makeRectangle(startDrag.x, startDrag.y, endDrag.x, endDrag.y);
 				g2.draw(r);
-			} 
+			}
 
 		}
 

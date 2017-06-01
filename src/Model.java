@@ -28,5 +28,7 @@ public class Model {
 	}
 	
 	
+	
+	
 }
 //클래스 하나 만들고 멤버 1. shape 2. 이름  3. 속성 
