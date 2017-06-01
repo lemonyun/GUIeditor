@@ -16,9 +16,11 @@ import javax.swing.RepaintManager;
 public class Controller {
 	private Model model;
 	private View view;
+	private FileProcessManager fpMgr; 
 	private String mode = "draw";
-
+	
 	private Point selectPoint;
+
 
 	private static ComponentObject currentObj = null;
 
@@ -32,6 +34,7 @@ public class Controller {
 	public Controller(Model model, View view) {
 		this.model = model;
 		this.view = view;
+		fpMgr = new FileProcessManager();
 	}
 
 	private void updateAttribute(ComponentObject obj) {
@@ -58,6 +61,29 @@ public class Controller {
 	}
 
 	public void control() {
+		view.getMnNew().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				view.getEditorPane().setVisible(true);
+			}
+		});
+		view.getMnOpen().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		view.getMnSave().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		view.getMnSaveAs().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		view.getMnMakejava().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		
 		view.getSelectModeBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mode = "select";
@@ -73,8 +99,8 @@ public class Controller {
 
 		view.getApplyBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(Float.parseFloat(view.getTextField_1().getText()));
-
+				//System.out.println(Float.parseFloat(view.getTextField_1().getText()));
+				
 				Shape r = new Rectangle2D.Float(Float.parseFloat(view.getTextField_1().getText()),
 						Float.parseFloat(view.getTextField_2().getText()),
 						Float.parseFloat(view.getTextField_3().getText()),
@@ -91,7 +117,7 @@ public class Controller {
 				view.getEditorPane().repaint();
 			}
 		});
-
+		
 		view.getEditorPane().addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				switch (mode) {
