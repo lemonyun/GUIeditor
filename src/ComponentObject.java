@@ -29,6 +29,9 @@ public class ComponentObject {
 	public Point getstartPoint(){
 		return new Point(this.getstartX(), this.getstartY());
 	}
+	public Point getEndPoint(){
+		return new Point(this.getstartX()+this.getWidth(), this.getstartY() + this.getHeight());
+	}
 	public String getName(){
 		return name;
 	}
