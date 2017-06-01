@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
@@ -43,6 +44,11 @@ public class View {
 	public JFrame getFrame() {return frame;}
 	public JButton getApplyBtn() {return applyBtn;}
 	public JComboBox getComboBox() {return comboBox;}
+	public JMenuItem getMnSave() {return mnSave;}
+	public JMenuItem getMnOpen() {return mnOpen;}
+	public JMenuItem getMnSaveAs() {return mnSaveAs;}
+	public JMenuItem getMnMakejava() {return mnMakejava;}
+	public JMenuItem getMnNew() {return mnNew;}
 	
 	private JFrame frame;
 	private JPanel contentPane;
@@ -57,7 +63,11 @@ public class View {
 	private JButton drawModeBtn;
 	private JButton applyBtn;
 	private JComboBox comboBox;
-	
+	private JMenuItem mnNew;
+	private JMenuItem mnOpen;
+	private JMenuItem mnSave;
+	private JMenuItem mnSaveAs;
+	private JMenuItem mnMakejava;
 	/**
 	 * Launch the application.
 	 */
@@ -76,17 +86,20 @@ public class View {
 
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
-
-		JMenu mnOpen = new JMenu("Open");
+		
+		mnNew = new JMenuItem("New");
+		mnFile.add(mnNew);
+		
+		mnOpen = new JMenuItem("Open");
 		mnFile.add(mnOpen);
 
-		JMenu mnSave = new JMenu("Save");
+		mnSave = new JMenuItem("Save");
 		mnFile.add(mnSave);
 
-		JMenu mnSaveAs = new JMenu("Save As");
+		mnSaveAs = new JMenuItem("Save As");
 		mnFile.add(mnSaveAs);
 
-		JMenu mnMakejava = new JMenu("make .java");
+		mnMakejava = new JMenuItem("make .java");
 		mnFile.add(mnMakejava);
 
 		JMenu mnExit = new JMenu("Exit");
@@ -106,8 +119,10 @@ public class View {
 		JPanel attribute = new JPanel();
 		editorPane = new PaintSurface();
 		// attribute.setBackground(Color.BLUE);
+		editorPane.setVisible(false);
 		contentPane.add(attribute, BorderLayout.WEST); 
-		contentPane.add(editorPane, BorderLayout.CENTER); 
+		contentPane.add(editorPane, BorderLayout.CENTER);
+		
 
 		attribute.setLayout(new BoxLayout(attribute, BoxLayout.Y_AXIS));
 
