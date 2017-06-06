@@ -3,15 +3,15 @@ import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 public class ComponentObject {
-	private Shape r;
+	private Rectangle2D.Float r;
 	private String name;
 	private String type;
-	public ComponentObject(Shape r, String name, String type) {
+	public ComponentObject(Rectangle2D.Float r, String name, String type) {
 		this.r = r;
 		this.name = name;
 		this.type = type;
 	}
-	public Shape getShape() {return r;}
+	public Rectangle2D.Float getShape() {return r;}
 
 	
 	public int getstartX(){
@@ -49,7 +49,7 @@ public class ComponentObject {
 	}
 	
 
-	public void setShape(Shape r)
+	public void setShape(Rectangle2D.Float r)
 	{
 		this.r = r ;
 	}
