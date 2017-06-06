@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -107,8 +108,20 @@ public class FileProcessManager {
 		result += fc.getSelectedFile().getName() + " {\n";
 		result += "public static void main(String[] args) {\n"
 				+ "JFrame frame = new JFrame(\"" + fc.getSelectedFile().getName() + "\");\n"
-				+ "frame.setVisible(true);\n";
-
+				+ "frame.setVisible(true);\n"
+				+ "frame.setSize(1000,600);\n"
+				+ "JPanel contentPane = new JPanel();\n"
+				+ "frame.setContentPane(contentPane);\n"
+				+ "contentPane.setLayout(null);\n";
+		
+		for(ComponentObject o : list)
+		{
+			String line = String.format("%s %s = new %s();\n", o.getType(), o.getName(), o.getType());
+			result += line;
+			result += String.format("%s.setBounds(%d, %d, %d, %d);\n",o.getName(), o.getstartX(), o.getstartY(), o.getWidth(), o.getHeight());
+			result += String.format("contentPane.add(%s);\n",o.getName());
+		}
+		 
 		result += "}\n}";
 		System.out.println(result);
 		return result;
