@@ -60,7 +60,7 @@ public class View {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
-	private String componentTypeList[] = { "button", "label", "333", "444" };
+	private String componentTypeList[] = { "JButton", "JLabel", "333", "444" };
 	private JComponent editorPane;
 	private JButton selectModeBtn;
 	private JButton drawModeBtn;
@@ -243,11 +243,11 @@ public class View {
 					g2.draw(obj.getShape());
 				} else {
 					switch (obj.getType()) {
-					case "button":
+					case "JButton":
 						g2.setPaint(Color.yellow);
 						g2.fill(obj.getShape());
 						break;
-					case "label":
+					case "JLabel":
 						g2.setPaint(Color.MAGENTA);
 						g2.fill(obj.getShape());
 						break;
