@@ -54,6 +54,7 @@ public class Controller {
 			public void actionPerformed(ActionEvent e) {
 				view.getEditorPane().setVisible(true);
 				isNewProject = true;
+				model.getObjs().clear();
 			}
 		});
 		view.getMnOpen().addActionListener(new ActionListener() {
@@ -75,6 +76,7 @@ public class Controller {
 		});
 		view.getMnMakejava().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				fpMgr.makeJavaFile(model.getObjs());
 			}
 		});
 		
