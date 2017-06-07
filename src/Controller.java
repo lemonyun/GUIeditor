@@ -24,6 +24,7 @@ public class Controller {
 	private boolean isNewProject = false;
 	private Point selectPoint;
 
+
 	private static ComponentObject currentObj = null;
 
 	private boolean sizeControlFlag = false;
@@ -137,6 +138,9 @@ public class Controller {
 				tempWidth = currentObj.getWidth();
 				model.delObj(currentObj);
 
+				// currentObj.setName(view.getTextField().getText());
+				// currentObj.setType(view.getComboBox().getSelectedItem().toString());
+				model.delObj(currentObj);
 				currentObj.setName(view.getTextField().getText());
 				currentObj.setType(view.getComboBox().getSelectedItem().toString());
 				currentObj.setText(view.getTextField_5().getText());
@@ -177,31 +181,39 @@ public class Controller {
 					currentObj = model.findComponentByPos(e.getX(), e.getY());
 					if (currentObj != null) {
 						updateAttribute(currentObj);
+
 						if (e.getX() < currentObj.getstartX() + 15 && e.getY() < currentObj.getstartY() + 15) {
+
 							selectedSizeControl = 1;
 							sizeControlFlag = true;
 							((View.PaintSurface) view.getEditorPane()).startDrag = currentObj.getstartPoint();
 							((View.PaintSurface) view.getEditorPane()).endDrag = currentObj.getEndPoint();
 							view.getEditorPane().repaint();
 
+
 						} else if (e.getX() > currentObj.getstartX() + currentObj.getWidth() - 15
 								&& e.getY() < currentObj.getstartY() + 15) {
+
 							selectedSizeControl = 2;
 							sizeControlFlag = true;
 							((View.PaintSurface) view.getEditorPane()).startDrag = currentObj.getstartPoint();
 							((View.PaintSurface) view.getEditorPane()).endDrag = currentObj.getEndPoint();
 							view.getEditorPane().repaint();
 
+
 						} else if (e.getX() < currentObj.getstartX() + 15
 								&& e.getY() > currentObj.getstartY() + currentObj.getHeight() - 15) {
+
 							selectedSizeControl = 3;
 							sizeControlFlag = true;
 							((View.PaintSurface) view.getEditorPane()).startDrag = currentObj.getstartPoint();
 							((View.PaintSurface) view.getEditorPane()).endDrag = currentObj.getEndPoint();
 							view.getEditorPane().repaint();
 
+
 						} else if (e.getX() > currentObj.getstartX() + currentObj.getWidth() - 15
 								&& e.getY() > currentObj.getstartY() + currentObj.getHeight() - 15) {
+
 							selectedSizeControl = 4;
 							sizeControlFlag = true;
 							((View.PaintSurface) view.getEditorPane()).startDrag = currentObj.getstartPoint();
