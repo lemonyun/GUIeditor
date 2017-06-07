@@ -66,6 +66,7 @@ public class View {
 	private JTextField textField_5;
 	private String componentTypeList[] = { "Select", "JButton", "JLabel" };
 	private JComponent editorPane;
+	private JComponent attributePane;
 	private JButton selectModeBtn;
 	private JButton drawModeBtn;
 	private JButton applyBtn;
@@ -282,7 +283,8 @@ public class View {
 					g2.setPaint(Color.BLACK);
 					g2.draw(obj.getShape());
 					g2.setPaint(Color.BLACK);
-					g2.drawString(obj.getText(), (2*obj.getstartX() + obj.getWidth())/2, (2*obj.getstartY()+obj.getHeight())/2);
+					if(obj.getText() != null)
+						g2.drawString(obj.getText(), (2*obj.getstartX() + obj.getWidth())/2, (2*obj.getstartY()+obj.getHeight())/2);
 				} else {
 					switch (obj.getType()) {
 					case "JButton":
