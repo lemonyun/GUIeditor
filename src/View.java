@@ -3,6 +3,7 @@ import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -32,6 +33,7 @@ public class View {
 	}
 
 
+
 	public void setTextField(JTextField textField) { this.textField = textField; }
 	public JTextField getTextField_1() {return textField_1;}
 	public void setTextField_1(JTextField textField_1) {this.textField_1 = textField_1;}
@@ -51,6 +53,7 @@ public class View {
 	public JMenuItem getMnSaveAs() {return mnSaveAs;}
 	public JMenuItem getMnMakejava() {return mnMakejava;}
 	public JMenuItem getMnNew() {return mnNew;}
+
 	
 
 	private JFrame frame;
@@ -60,11 +63,13 @@ public class View {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
-	private String componentTypeList[] = { "JButton", "JLabel", "333", "444" };
+	private JTextField textField_5;
+	private String componentTypeList[] = { "Select", "JButton", "JLabel" };
 	private JComponent editorPane;
 	private JButton selectModeBtn;
 	private JButton drawModeBtn;
 	private JButton applyBtn;
+	private JButton deleteBtn;
 	private JComboBox comboBox;
 
 	private JMenuItem mnNew;
@@ -91,10 +96,10 @@ public class View {
 
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
-		
+
 		mnNew = new JMenuItem("New");
 		mnFile.add(mnNew);
-		
+
 		mnOpen = new JMenuItem("Open");
 		mnFile.add(mnOpen);
 
@@ -111,6 +116,9 @@ public class View {
 		menuBar.add(mnExit);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
+		
+		
 		frame.setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 
@@ -121,18 +129,18 @@ public class View {
 		toolBar.add(selectModeBtn);
 		contentPane.add(toolBar, BorderLayout.NORTH);
 
-		JPanel attribute = new JPanel();
+		attributePane = new JPanel();
 		editorPane = new PaintSurface();
 		// attribute.setBackground(Color.BLUE);
 
 		editorPane.setVisible(false);
-		contentPane.add(attribute, BorderLayout.WEST); 
+		contentPane.add(attributePane, BorderLayout.WEST);
 		contentPane.add(editorPane, BorderLayout.CENTER);
 
-		attribute.setLayout(new BoxLayout(attribute, BoxLayout.Y_AXIS));
+		attributePane.setLayout(new BoxLayout(attributePane, BoxLayout.Y_AXIS));
 
 		JPanel panel = new JPanel();
-		attribute.add(panel);
+		attributePane.add(panel);
 
 		JLabel lblNewLabel = new JLabel("name");
 		panel.add(lblNewLabel);
@@ -142,7 +150,7 @@ public class View {
 		textField.setColumns(10);
 
 		JPanel panel_6 = new JPanel();
-		attribute.add(panel_6);
+		attributePane.add(panel_6);
 
 		JLabel lblNewLabel_1 = new JLabel("x");
 		panel_6.add(lblNewLabel_1);
@@ -152,7 +160,7 @@ public class View {
 		textField_1.setColumns(10);
 
 		JPanel panel_7 = new JPanel();
-		attribute.add(panel_7);
+		attributePane.add(panel_7);
 
 		JLabel lblNewLabel_2 = new JLabel("y");
 		panel_7.add(lblNewLabel_2);
@@ -162,11 +170,11 @@ public class View {
 		textField_2.setColumns(10);
 
 		JPanel panel_1 = new JPanel();
-		attribute.add(panel_1);
+		attributePane.add(panel_1);
 		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
 
 		JPanel panel_3 = new JPanel();
-		attribute.add(panel_3);
+		attributePane.add(panel_3);
 
 		JLabel lblWidth = new JLabel("width");
 		panel_3.add(lblWidth);
@@ -176,7 +184,7 @@ public class View {
 		panel_3.add(textField_3);
 
 		JPanel panel_4 = new JPanel();
-		attribute.add(panel_4);
+		attributePane.add(panel_4);
 
 		JLabel lblHeight = new JLabel("height");
 		panel_4.add(lblHeight);
@@ -185,8 +193,18 @@ public class View {
 		textField_4.setColumns(10);
 		panel_4.add(textField_4);
 
+		JPanel panel_8 = new JPanel();
+		attributePane.add(panel_8);
+
+		JLabel lblText = new JLabel("text");
+		panel_8.add(lblText);
+
+		textField_5 = new JTextField();
+		textField_5.setColumns(10);
+		panel_8.add(textField_5);
+
 		JPanel panel_5 = new JPanel();
-		attribute.add(panel_5);
+		attributePane.add(panel_5);
 
 		JLabel lblType = new JLabel("type");
 		panel_5.add(lblType);
@@ -196,11 +214,27 @@ public class View {
 		panel_5.add(comboBox);
 
 		applyBtn = new JButton("apply");
-		attribute.add(applyBtn);
+		attributePane.add(applyBtn);
+		
+		deleteBtn = new JButton("delete");
+		attributePane.add(deleteBtn);
+		
 		/*
 		 * JPanel editor = new JPanel(); editor.setBackground(Color.DARK_GRAY);
 		 * contentPane.add(editor, BorderLayout.CENTER); editor.setLayout(null);
 		 */
+	}
+
+	public JButton getDeleteBtn() {
+		return deleteBtn;
+	}
+
+	public JPanel getContentPane() {
+		return contentPane;
+	}
+
+	public JTextField getTextField_5() {
+		return textField_5;
 	}
 
 	public JComponent getEditorPane() {
@@ -225,8 +259,11 @@ public class View {
 		}
 
 		public void paint(Graphics g) {
+
+
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			
 
 			paintBackground(g2);
 			// Color[] colors = { Color.YELLOW, Color.MAGENTA, Color.CYAN ,
@@ -236,11 +273,16 @@ public class View {
 
 			for (ComponentObject obj : Model.getObjs()) {
 
+				Font font = new Font("Serif", Font.PLAIN,obj.getWidth()/10);
+				g2.setFont(font);
+
 				if (obj.getType() == null) {
 					g2.setPaint(Color.GRAY);
 					g2.fill(obj.getShape());
 					g2.setPaint(Color.BLACK);
 					g2.draw(obj.getShape());
+					g2.setPaint(Color.BLACK);
+					g2.drawString(obj.getText(), (2*obj.getstartX() + obj.getWidth())/2, (2*obj.getstartY()+obj.getHeight())/2);
 				} else {
 					switch (obj.getType()) {
 					case "JButton":
@@ -254,24 +296,30 @@ public class View {
 					}
 					g2.setPaint(Color.BLACK);
 					g2.draw(obj.getShape());
+					g2.drawString(obj.getText(), (2*obj.getstartX() + obj.getWidth())/2, (2*obj.getstartY()+obj.getHeight())/2);
 				}
 				if (obj == Controller.getCurrentObj()) {
-					Shape r = makeRectangle(obj.getstartX(), obj.getstartY(), obj.getstartX() + 30, obj.getstartY() + 30);
+					Shape r = makeRectangle(obj.getstartX(), obj.getstartY(), obj.getstartX() + 15,
+							obj.getstartY() + 15);
 					g2.setPaint(Color.LIGHT_GRAY);
 					g2.fill(r);
 					g2.draw(r);
-					r = makeRectangle(obj.getstartX()+obj.getWidth() - 30, obj.getstartY(), obj.getstartX()+obj.getWidth(), obj.getstartY() + 30);
+					r = makeRectangle(obj.getstartX() + obj.getWidth() - 15, obj.getstartY(),
+							obj.getstartX() + obj.getWidth(), obj.getstartY() + 15);
 					g2.fill(r);
 					g2.draw(r);
-					
-					r = makeRectangle(obj.getstartX(), obj.getstartY()+obj.getHeight() - 30, obj.getstartX() + 30, obj.getstartY()+obj.getHeight());
+
+					r = makeRectangle(obj.getstartX(), obj.getstartY() + obj.getHeight() - 15, obj.getstartX() + 15,
+							obj.getstartY() + obj.getHeight());
 					g2.fill(r);
 					g2.draw(r);
-					r = makeRectangle(obj.getstartX()+obj.getWidth() - 30, obj.getstartY()+obj.getHeight() - 30, obj.getstartX()+obj.getWidth(), obj.getstartY()+obj.getHeight());
+					r = makeRectangle(obj.getstartX() + obj.getWidth() - 15, obj.getstartY() + obj.getHeight() - 15,
+							obj.getstartX() + obj.getWidth(), obj.getstartY() + obj.getHeight());
 					g2.fill(r);
 					g2.draw(r);
-					
+
 				}
+
 			}
 
 			if (startDrag != null && endDrag != null) {

@@ -6,10 +6,12 @@ public class ComponentObject {
 	private Rectangle2D.Float r;
 	private String name;
 	private String type;
-	public ComponentObject(Rectangle2D.Float r, String name, String type) {
+	private String text;
+	public ComponentObject(Rectangle2D.Float r, String name, String type, String text) {
 		this.r = r;
 		this.name = name;
 		this.type = type;
+		this.text = text;
 	}
 	public Rectangle2D.Float getShape() {return r;}
 
@@ -48,10 +50,16 @@ public class ComponentObject {
 	public ComponentObject changeR(Point p1, Point p2){
 		
 		Rectangle2D.Float r = new Rectangle2D.Float(Math.min(p1.x, p2.x), Math.min(p1.y, p2.y), Math.abs(p1.x - p2.x), Math.abs(p1.y - p2.y));
-		return new ComponentObject(r, name, type);
+		return new ComponentObject(r, name, type, text);
 	}
 	
 
+	public String getText() {
+		return text;
+	}
+	public void setText(String text) {
+		this.text = text;
+	}
 	public void setShape(Rectangle2D.Float r)
 	{
 		this.r = r ;

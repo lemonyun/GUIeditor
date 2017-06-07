@@ -2,33 +2,29 @@ import java.awt.Shape;
 import java.util.ArrayList;
 
 public class Model {
-	
+
 	private static ArrayList<ComponentObject> objs = new ArrayList<ComponentObject>();
-	
-	
-	public void addObj(ComponentObject obj){
+
+	public void addObj(ComponentObject obj) {
 		objs.add(obj);
 	}
-	public void delObj(ComponentObject obj){
+
+	public void delObj(ComponentObject obj) {
 		objs.remove(obj);
 	}
+
 	public static ArrayList<ComponentObject> getObjs() {
 		return objs;
 	}
-	public ComponentObject findComponentByPos(final int x, final int y)
-	{
-		for(ComponentObject o : objs)
-		{
-			if( o.getShape().intersects(x, y, 1, 1))
-			{
+
+	public ComponentObject findComponentByPos(final int x, final int y) {
+		for (ComponentObject o : objs) {
+			if (o.getShape().intersects(x, y, 1, 1)) {
 				return o;
 			}
 		}
 		return null;
 	}
-	
-	
-	
-	
+
 }
-//Å¬·¡½º ÇÏ³ª ¸¸µé°í ¸â¹ö 1. shape 2. ÀÌ¸§  3. ¼Ó¼º 
+// í´ë˜ìŠ¤ í•˜ë‚˜ ë§Œë“¤ê³  ë©¤ë²„ 1. shape 2. ì´ë¦„ 3. ì†ì„±
