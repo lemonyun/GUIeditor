@@ -18,7 +18,7 @@ public class Controller {
 	private View view;
 	private FileProcessManager fpMgr; 
 	private String mode = "draw";
-	
+	private boolean isNewProject = false;
 	private Point selectPoint;
 
 
@@ -34,7 +34,7 @@ public class Controller {
 	public Controller(Model model, View view) {
 		this.model = model;
 		this.view = view;
-		fpMgr = new FileProcessManager();
+		fpMgr = new FileProcessManager(view);
 	}
 
 	private void updateAttribute(ComponentObject obj) {
@@ -64,23 +64,30 @@ public class Controller {
 		view.getMnNew().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				view.getEditorPane().setVisible(true);
+				isNewProject = true;
+				model.getObjs().clear();
 			}
 		});
 		view.getMnOpen().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				fpMgr.open(model.getObjs());
 				
 			}
 		});
 		view.getMnSave().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				fpMgr.save(model.getObjs(), isNewProject);
+				isNewProject = false;
 			}
 		});
 		view.getMnSaveAs().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				fpMgr.save(model.getObjs(),true);
 			}
 		});
 		view.getMnMakejava().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				fpMgr.makeJavaFile(model.getObjs());
 			}
 		});
 		
@@ -101,7 +108,7 @@ public class Controller {
 			public void actionPerformed(ActionEvent e) {
 				//System.out.println(Float.parseFloat(view.getTextField_1().getText()));
 				
-				Shape r = new Rectangle2D.Float(Float.parseFloat(view.getTextField_1().getText()),
+				Rectangle2D.Float r = new Rectangle2D.Float(Float.parseFloat(view.getTextField_1().getText()),
 						Float.parseFloat(view.getTextField_2().getText()),
 						Float.parseFloat(view.getTextField_3().getText()),
 						Float.parseFloat(view.getTextField_4().getText()));
@@ -181,7 +188,7 @@ public class Controller {
 				switch (mode) {
 
 				case "draw":
-					Shape r = ((View.PaintSurface) view.getEditorPane()).makeRectangle(
+					Rectangle2D.Float r = ((View.PaintSurface) view.getEditorPane()).makeRectangle(
 							((View.PaintSurface) view.getEditorPane()).startDrag.x,
 							((View.PaintSurface) view.getEditorPane()).startDrag.y, e.getX(), e.getY());
 					currentObj = new ComponentObject(r, null, null);
