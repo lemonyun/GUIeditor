@@ -59,10 +59,16 @@ public class FileProcessManager {
 					}.getType();
 					ArrayList<ComponentObject> jsonToList = gson.fromJson(reader, myDataType);
 
-					list = jsonToList;
-					for (ComponentObject o : list)
+					
+					list.clear();
+					
+					for (ComponentObject o : jsonToList){
 						System.out.println(o.getShape());
+						list.add(o);
+					}
 					view.getEditorPane().setVisible(true);
+					
+					
 					// view.getEditorPane().repaint();
 
 				} catch (IOException e) {
