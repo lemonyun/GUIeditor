@@ -1,20 +1,13 @@
 import java.awt.Cursor;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-
-import javax.swing.JDialog;
-import javax.swing.RepaintManager;
 
 public class Controller {
 	private Model model;
@@ -70,71 +63,56 @@ public class Controller {
 		}
 		return true;
 	}
-
+	class MyActionListener{
+		class NewFuncListener implements ActionListener{
+			public void actionPerformed(ActionEvent e)
+			{
+				view.getEditorPane().setVisible(true);
+				isNewProject = true;
+				model.getObjs().clear();
+				view.getEditorPane().repaint();
+			}
+		}
+		class OpenFuncListener implements ActionListener{
+			public void actionPerformed(ActionEvent e)
+			{
+				fpMgr.open(model.getObjs());
+				view.getEditorPane().repaint();
+			}
+		}
+		class SaveFuncListener implements ActionListener{
+			public void actionPerformed(ActionEvent e)
+			{
+				fpMgr.save(model.getObjs(), isNewProject);
+				isNewProject = false;
+			}
+		}
+		class SaveAsFuncListener implements ActionListener{
+			public void actionPerformed(ActionEvent e)
+			{
+				fpMgr.save(model.getObjs(), true);
+				isNewProject = false;
+			}
+		}
+		class MakeJavaFuncListener implements ActionListener{
+			public void actionPerformed(ActionEvent e)
+			{
+				fpMgr.makeJavaFile(model.getObjs());
+			}
+		}
+	}
 	public void control() {
-		
-		view.getMnNew().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				view.getEditorPane().setVisible(true);
-				isNewProject = true;
-				model.getObjs().clear();
-				view.getEditorPane().repaint();
-			}
-		});
-		view.getMnOpen().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				fpMgr.open(model.getObjs());
-				view.getEditorPane().repaint();
-
-			}
-		});
-		view.getMnSave().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				fpMgr.save(model.getObjs(), isNewProject);
-				isNewProject = false;
-			}
-		});
-		view.getMnSaveAs().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				fpMgr.save(model.getObjs(), true);
-			}
-		});
-		view.getMnMakejava().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				fpMgr.makeJavaFile(model.getObjs());
-			}
-		});
-		view.getNewBtn().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				view.getEditorPane().setVisible(true);
-				isNewProject = true;
-				model.getObjs().clear();
-				view.getEditorPane().repaint();
-			}
-		});
-		view.getOpenBtn().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				fpMgr.open(model.getObjs());
-				view.getEditorPane().repaint();
-
-			}
-		});
-		view.getSaveBtn().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				fpMgr.save(model.getObjs(), isNewProject);
-				isNewProject = false;
-			}
-		});
-		view.getSaveAsBtn().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				fpMgr.save(model.getObjs(), true);
-			}
-		});
-		view.getMakeJavaBtn().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				fpMgr.makeJavaFile(model.getObjs());
-			}
-		});
+		MyActionListener myActionListener = new MyActionListener();
+		view.getMnNew().addActionListener(myActionListener.new NewFuncListener());
+		view.getMnOpen().addActionListener(myActionListener.new OpenFuncListener());
+		view.getMnSave().addActionListener(myActionListener.new SaveFuncListener());
+		view.getMnSaveAs().addActionListener(myActionListener.new SaveAsFuncListener());
+		view.getMnMakejava().addActionListener(myActionListener.new MakeJavaFuncListener());
+		view.getNewBtn().addActionListener(myActionListener.new NewFuncListener());
+		view.getOpenBtn().addActionListener(myActionListener.new OpenFuncListener());
+		view.getSaveBtn().addActionListener(myActionListener.new SaveFuncListener());
+		view.getSaveAsBtn().addActionListener(myActionListener.new SaveAsFuncListener());
+		view.getMakeJavaBtn().addActionListener(myActionListener.new MakeJavaFuncListener());
 		
 		view.getSelectModeBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
