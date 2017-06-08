@@ -123,6 +123,13 @@ public class View {
 	private JButton drawModeBtn;
 	private JButton applyBtn;
 	private JButton deleteBtn;
+	
+	private JButton newBtn;
+	private JButton openBtn;
+	private JButton saveBtn;
+	private JButton saveAsBtn;
+	private JButton makeJavaBtn;
+	
 	private JComboBox comboBox;
 
 	private JMenuItem mnNew;
@@ -130,6 +137,34 @@ public class View {
 	private JMenuItem mnSave;
 	private JMenuItem mnSaveAs;
 	private JMenuItem mnMakejava;
+
+	public String[] getComponentTypeList() {
+		return componentTypeList;
+	}
+
+	public JComponent getAttributePane() {
+		return attributePane;
+	}
+
+	public JButton getNewBtn() {
+		return newBtn;
+	}
+
+	public JButton getOpenBtn() {
+		return openBtn;
+	}
+
+	public JButton getSaveBtn() {
+		return saveBtn;
+	}
+
+	public JButton getSaveAsBtn() {
+		return saveAsBtn;
+	}
+
+	public JButton getMakeJavaBtn() {
+		return makeJavaBtn;
+	}
 
 	/**
 	 * Launch the application.
@@ -176,8 +211,18 @@ public class View {
 		JToolBar toolBar = new JToolBar();
 		drawModeBtn = new JButton("drawMode");
 		selectModeBtn = new JButton("selectMode");
+		newBtn = new JButton("new");
+		openBtn = new JButton("open");
+		saveBtn = new JButton("save");
+		saveAsBtn = new JButton("save as");
+		makeJavaBtn = new JButton("make java");
 		toolBar.add(drawModeBtn);
 		toolBar.add(selectModeBtn);
+		toolBar.add(newBtn);
+		toolBar.add(openBtn);
+		toolBar.add(saveBtn);
+		toolBar.add(saveAsBtn);
+		toolBar.add(makeJavaBtn);
 		contentPane.add(toolBar, BorderLayout.NORTH);
 
 		attributePane = new JPanel();

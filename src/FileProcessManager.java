@@ -68,9 +68,6 @@ public class FileProcessManager {
 					}
 					view.getEditorPane().setVisible(true);
 					
-					
-					// view.getEditorPane().repaint();
-
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -81,6 +78,8 @@ public class FileProcessManager {
 
 	public void makeJavaFile(final ArrayList<ComponentObject> list) {
 		String result = null; 
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("java files", "java");
+		fc.setFileFilter(filter);
 		int returnVal = fc.showSaveDialog(view.getFrame());
 		if (returnVal == JFileChooser.APPROVE_OPTION)
 		{
@@ -122,7 +121,7 @@ public class FileProcessManager {
 		
 		for(ComponentObject o : list)
 		{
-			String line = String.format("%s %s = new %s();\n", o.getType(), o.getName(), o.getType());
+			String line = String.format("%s %s = new %s(\"%s\");\n", o.getType(), o.getName(), o.getType(),o.getText());
 			result += line;
 			result += String.format("%s.setBounds(%d, %d, %d, %d);\n",o.getName(), o.getstartX(), o.getstartY(), o.getWidth(), o.getHeight());
 			result += String.format("contentPane.add(%s);\n",o.getName());

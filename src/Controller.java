@@ -60,7 +60,7 @@ public class Controller {
 		view.getTextField_4().setText(null);
 		view.getTextField_5().setText(null);
 	}
-	private boolean ComponentObjectColiderCheck(ArrayList<ComponentObject> list, ComponentObject _o) {
+	private boolean ComponentObjectCollisionCheck(ArrayList<ComponentObject> list, ComponentObject _o) {
 		for (ComponentObject o : list) {
 			if (o.getName() == _o.getName())
 				continue;
@@ -104,7 +104,37 @@ public class Controller {
 				fpMgr.makeJavaFile(model.getObjs());
 			}
 		});
-		
+		view.getNewBtn().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				view.getEditorPane().setVisible(true);
+				isNewProject = true;
+				model.getObjs().clear();
+				view.getEditorPane().repaint();
+			}
+		});
+		view.getOpenBtn().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fpMgr.open(model.getObjs());
+				view.getEditorPane().repaint();
+
+			}
+		});
+		view.getSaveBtn().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fpMgr.save(model.getObjs(), isNewProject);
+				isNewProject = false;
+			}
+		});
+		view.getSaveAsBtn().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fpMgr.save(model.getObjs(), true);
+			}
+		});
+		view.getMakeJavaBtn().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fpMgr.makeJavaFile(model.getObjs());
+			}
+		});
 		
 		view.getSelectModeBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -141,7 +171,7 @@ public class Controller {
 				currentObj.setType(view.getComboBox().getSelectedItem().toString());
 				currentObj.setText(view.getTextField_5().getText());
 				currentObj.setShape(r);
-				if (ComponentObjectColiderCheck(model.getObjs(), currentObj)) {
+				if (ComponentObjectCollisionCheck(model.getObjs(), currentObj)) {
 					model.addObj(currentObj);
 				} else {
 					currentObj.setShape(new Rectangle2D.Float(tempX, tempY, tempWidth, tempHeight));
@@ -161,6 +191,7 @@ public class Controller {
 				view.getEditorPane().repaint();
 			}
 		});
+		
 		view.getEditorPane().addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				switch (mode) {
@@ -229,7 +260,7 @@ public class Controller {
 							((View.PaintSurface) view.getEditorPane()).startDrag.x,
 							((View.PaintSurface) view.getEditorPane()).startDrag.y, e.getX(), e.getY());
 					currentObj = new ComponentObject(r, null, null, null);
-					if (ComponentObjectColiderCheck(model.getObjs(), currentObj)
+					if (ComponentObjectCollisionCheck(model.getObjs(), currentObj)
 							&& (((View.PaintSurface) view.getEditorPane()).startDrag.x != e.getX())
 							&& (((View.PaintSurface) view.getEditorPane()).startDrag.y != e.getY())) {
 						currentObj = new ComponentObject(r,
@@ -255,7 +286,7 @@ public class Controller {
 					Point p2 = new Point(((View.PaintSurface) view.getEditorPane()).endDrag.x,
 							((View.PaintSurface) view.getEditorPane()).endDrag.y);
 
-					if (ComponentObjectColiderCheck(model.getObjs(), currentObj.changeR(p1, p2))) {
+					if (ComponentObjectCollisionCheck(model.getObjs(), currentObj.changeR(p1, p2))) {
 						model.delObj(currentObj);
 						updateAttribute(currentObj.changeR(p1, p2));
 						model.addObj(currentObj.changeR(p1, p2));
