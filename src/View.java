@@ -32,29 +32,81 @@ public class View {
 		return textField;
 	}
 
+	public void setTextField(JTextField textField) {
+		this.textField = textField;
+	}
 
+	public JTextField getTextField_1() {
+		return textField_1;
+	}
 
-	public void setTextField(JTextField textField) { this.textField = textField; }
-	public JTextField getTextField_1() {return textField_1;}
-	public void setTextField_1(JTextField textField_1) {this.textField_1 = textField_1;}
-	public JTextField getTextField_2() {return textField_2;}
-	public void setTextField_2(JTextField textField_2) {this.textField_2 = textField_2;}
-	public JTextField getTextField_3() {return textField_3;}
-	public void setTextField_3(JTextField textField_3) {this.textField_3 = textField_3;}
-	public JTextField getTextField_4() {return textField_4;}
-	public void setTextField_4(JTextField textField_4) {this.textField_4 = textField_4;}
-	public JButton getDrawModeBtn() { return drawModeBtn;}
-	public JButton getSelectModeBtn() { return selectModeBtn;}
-	public JFrame getFrame() {return frame;}
-	public JButton getApplyBtn() {return applyBtn;}
-	public JComboBox getComboBox() {return comboBox;}
-	public JMenuItem getMnSave() {return mnSave;}
-	public JMenuItem getMnOpen() {return mnOpen;}
-	public JMenuItem getMnSaveAs() {return mnSaveAs;}
-	public JMenuItem getMnMakejava() {return mnMakejava;}
-	public JMenuItem getMnNew() {return mnNew;}
+	public void setTextField_1(JTextField textField_1) {
+		this.textField_1 = textField_1;
+	}
 
-	
+	public JTextField getTextField_2() {
+		return textField_2;
+	}
+
+	public void setTextField_2(JTextField textField_2) {
+		this.textField_2 = textField_2;
+	}
+
+	public JTextField getTextField_3() {
+		return textField_3;
+	}
+
+	public void setTextField_3(JTextField textField_3) {
+		this.textField_3 = textField_3;
+	}
+
+	public JTextField getTextField_4() {
+		return textField_4;
+	}
+
+	public void setTextField_4(JTextField textField_4) {
+		this.textField_4 = textField_4;
+	}
+
+	public JButton getDrawModeBtn() {
+		return drawModeBtn;
+	}
+
+	public JButton getSelectModeBtn() {
+		return selectModeBtn;
+	}
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public JButton getApplyBtn() {
+		return applyBtn;
+	}
+
+	public JComboBox getComboBox() {
+		return comboBox;
+	}
+
+	public JMenuItem getMnSave() {
+		return mnSave;
+	}
+
+	public JMenuItem getMnOpen() {
+		return mnOpen;
+	}
+
+	public JMenuItem getMnSaveAs() {
+		return mnSaveAs;
+	}
+
+	public JMenuItem getMnMakejava() {
+		return mnMakejava;
+	}
+
+	public JMenuItem getMnNew() {
+		return mnNew;
+	}
 
 	private JFrame frame;
 	private JPanel contentPane;
@@ -117,9 +169,7 @@ public class View {
 		menuBar.add(mnExit);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
-		
-		
+
 		frame.setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 
@@ -216,10 +266,10 @@ public class View {
 
 		applyBtn = new JButton("apply");
 		attributePane.add(applyBtn);
-		
+
 		deleteBtn = new JButton("delete");
 		attributePane.add(deleteBtn);
-		
+
 		/*
 		 * JPanel editor = new JPanel(); editor.setBackground(Color.DARK_GRAY);
 		 * contentPane.add(editor, BorderLayout.CENTER); editor.setLayout(null);
@@ -261,10 +311,8 @@ public class View {
 
 		public void paint(Graphics g) {
 
-
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			
 
 			paintBackground(g2);
 			// Color[] colors = { Color.YELLOW, Color.MAGENTA, Color.CYAN ,
@@ -274,7 +322,7 @@ public class View {
 
 			for (ComponentObject obj : Model.getObjs()) {
 
-				Font font = new Font("Serif", Font.PLAIN,obj.getWidth()/10);
+				Font font = new Font("Serif", Font.PLAIN, obj.getWidth() / 10);
 				g2.setFont(font);
 
 				if (obj.getType() == null) {
@@ -282,9 +330,9 @@ public class View {
 					g2.fill(obj.getShape());
 					g2.setPaint(Color.BLACK);
 					g2.draw(obj.getShape());
-					g2.setPaint(Color.BLACK);
-					if(obj.getText() != null)
-						g2.drawString(obj.getText(), (2*obj.getstartX() + obj.getWidth())/2, (2*obj.getstartY()+obj.getHeight())/2);
+					if (obj.getText() != null)
+						g2.drawString(obj.getText(), (2 * obj.getstartX() + obj.getWidth()) / 2,
+								(2 * obj.getstartY() + obj.getHeight()) / 2);
 				} else {
 					switch (obj.getType()) {
 					case "JButton":
@@ -298,9 +346,19 @@ public class View {
 					}
 					g2.setPaint(Color.BLACK);
 					g2.draw(obj.getShape());
-					g2.drawString(obj.getText(), (2*obj.getstartX() + obj.getWidth())/2, (2*obj.getstartY()+obj.getHeight())/2);
+					g2.drawString(obj.getText(), (2 * obj.getstartX() + obj.getWidth()) / 2,
+							(2 * obj.getstartY() + obj.getHeight()) / 2);
 				}
 				if (obj == Controller.getCurrentObj()) {
+					g2.setPaint(Color.GREEN);
+					g2.fill(obj.getShape());
+
+					g2.setPaint(Color.BLACK);
+					g2.draw(obj.getShape());
+					if (obj.getText() != null)
+						g2.drawString(obj.getText(), (2 * obj.getstartX() + obj.getWidth()) / 2,
+								(2 * obj.getstartY() + obj.getHeight()) / 2);
+
 					Shape r = makeRectangle(obj.getstartX(), obj.getstartY(), obj.getstartX() + 15,
 							obj.getstartY() + 15);
 					g2.setPaint(Color.LIGHT_GRAY);
